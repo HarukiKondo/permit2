@@ -256,6 +256,51 @@ forge script --broadcast --rpc-url $RPC_URL --private-key $PRIVATE_KEY --verify 
 
 [実際にデプロイしたコントラクト - sepolia](https://sepolia.etherscan.io/address/0xF08f41d9f4704be54AbdDA494F7d0FE6098fa9f3)
 
+### Scripts
+
+テストネットにデプロイしたコントラクトの機能を呼び出す
+
+```bash
+# 基本情報取得
+forge script --rpc-url $RPC_URL script/InteractWithPermit2.s.sol:InteractWithPermit2 --sig "run()"
+```
+
+実行結果例
+
+```bash
+== Logs ==
+  === Permit2 Contract Basic Information ===
+  Contract Address: 0xF08f41d9f4704be54AbdDA494F7d0FE6098fa9f3
+  DOMAIN_SEPARATOR:
+  0x4f1a4196777181df9c428e0f364fa64da55307905d030f9c95ffac7d93bcd582
+  Current Chain ID: 11155111
+  Current Block Number: 8881412
+  Current Timestamp: 1753952604
+  === DOMAIN_SEPARATOR Detailed Analysis ===
+  Actual Value:
+  0x4f1a4196777181df9c428e0f364fa64da55307905d030f9c95ffac7d93bcd582
+  Expected Value:
+  0x4f1a4196777181df9c428e0f364fa64da55307905d030f9c95ffac7d93bcd582
+  Match: true
+  === Contract Information ===
+  Bytecode Size: 9152 bytes
+  Max Size (24KB): 24576 bytes
+  Remaining Capacity: 15424 bytes
+  Usage Rate: 37 %
+  === Basic Information Retrieval Complete ===
+
+```
+
+```bash
+# 高度な機能テスト
+forge script --rpc-url $RPC_URL script/TestPermit2Advanced.s.sol:TestPermit2Advanced --sig "run()"
+```
+
+```bash
+# トークン相互作用テスト
+forge script --rpc-url $RPC_URL script/TestTokenInteraction.s.sol:TestTokenInteraction --sig "run()"
+```
+
 ## Acknowledgments
 
 Inspired by [merklejerk](https://github.com/merklejerk)'s [permit-everywhere](https://github.com/merklejerk/permit-everywhere) contracts which introduce permit based approvals for all tokens regardless of EIP2612 support.
