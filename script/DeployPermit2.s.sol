@@ -5,7 +5,7 @@ import "forge-std/console2.sol";
 import "forge-std/Script.sol";
 import {Permit2} from "src/Permit2.sol";
 
-bytes32 constant SALT = bytes32(uint256(0x0000000000000000000000000000000000000000d3af2663da51c10215000000));
+bytes32 constant SALT = bytes32(uint256(0x0000000000000000000000000000000000000000d3af2663da51c10216000000));
 
 /**
  * @title デプロイ用のスクリプト

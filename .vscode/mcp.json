@@ -1,0 +1,23 @@
+{
+  "inputs": [],
+  "servers": {
+    "deepwiki": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.deepwiki.com/sse"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
+    "drawio":{
+      "command":"npx",
+      "args":[
+        "-y",
+        "drawio-mcp-server"
+      ]
+    }
+  }
+}

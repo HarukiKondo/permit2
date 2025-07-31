@@ -12,5 +12,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Uniswap/permit2.git"
+  },
+  "scripts": {
+    "lint": "forge fmt --check",
+    "setup": "forge install",
+    "test": "forge test"
   }
 }

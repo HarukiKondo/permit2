@@ -133,7 +133,7 @@ contract SignatureTransfer is ISignatureTransfer, EIP712 {
         emit UnorderedNonceInvalidation(msg.sender, wordPos, mask);
     }
 
-    /// @notice Returns the index of the bitmap and the bit position within the bitmap. Used for unordered nonces
+    // @notice Returns the index of the bitmap and the bit position within the bitmap. Used for unordered nonces
     /// @param nonce The nonce to get the associated word and bit positions
     /// @return wordPos The word position or index into the nonceBitmap
     /// @return bitPos The bit position

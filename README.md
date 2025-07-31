@@ -58,6 +58,10 @@ cd permit2
 forge install
 ```
 
+```bash
+cp .env.example .env
+```
+
 ### Lint
 
 ```sh
@@ -78,7 +82,159 @@ FOUNDRY_PROFILE=integration forge test
 テストの実行結果
 
 ```bash
+[⠒] Compiling...
+[⠢] Compiling 79 files with Solc 0.8.17
+[⠑] Solc 0.8.17 finished in 594.29s
 
+Ran 2 tests for test/CompactSignature.t.sol:CompactSignature
+[PASS] testCompactSignature27() (gas: 300)
+[PASS] testCompactSignature28() (gas: 144)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 24.14ms (3.23ms CPU time)
+
+Ran 2 tests for test/EIP712.t.sol:EIP712Test
+[PASS] testDomainSeparator() (gas: 5881)
+[PASS] testDomainSeparatorAfterFork() (gas: 10830)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 25.04ms (2.48ms CPU time)
+
+Ran 1 test for test/mocks/MockPermit2Lib.sol:MockPermit2Lib
+[PASS] testPermit2Code(address) (runs: 256, μ: 3016, ~: 3016)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 66.16ms (45.65ms CPU time)
+
+Ran 3 tests for test/utils/DeployPermit2.t.sol:DeployPermit2Test
+[PASS] testAllowanceTransferSanityCheck() (gas: 101876)
+[PASS] testDeployPermit2() (gas: 4337527)
+[PASS] testSignatureTransferSanityCheck() (gas: 92792)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 88.70ms (62.76ms CPU time)
+
+Ran 10 tests for test/TypehashGeneration.t.sol:TypehashGeneration
+[PASS] testPermitBatch() (gas: 40473)
+[PASS] testPermitBatchTransferFrom() (gas: 49837)
+[PASS] testPermitBatchTransferFromWithWitness() (gas: 56621)
+[PASS] testPermitBatchTransferFromWithWitnessIncorrectPermitData() (gas: 56744)
+[PASS] testPermitBatchTransferFromWithWitnessIncorrectTypehashStub() (gas: 57353)
+[PASS] testPermitSingle() (gas: 28138)
+[PASS] testPermitTransferFrom() (gas: 36511)
+[PASS] testPermitTransferFromWithWitness() (gas: 43469)
+[PASS] testPermitTransferFromWithWitnessIncorrectPermitData() (gas: 43436)
+[PASS] testPermitTransferFromWithWitnessIncorrectTypehashStub() (gas: 43956)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 15.78ms (13.73ms CPU time)
+
+Ran 29 tests for test/Permit2Lib.t.sol:Permit2LibTest
+[PASS] testOZSafePermit() (gas: 24682)
+[PASS] testOZSafePermitPlusOZSafeTransferFrom() (gas: 129329)
+[PASS] testOZSafeTransferFrom() (gas: 39007)
+[PASS] testPermit2() (gas: 22941)
+[PASS] testPermit2DSLessToken() (gas: 7143)
+[PASS] testPermit2DSMore32Token() (gas: 7252)
+[PASS] testPermit2DSMoreToken() (gas: 7023)
+[PASS] testPermit2Full() (gas: 42356)
+[PASS] testPermit2InvalidAmount() (gas: 21011)
+[PASS] testPermit2LargerDS() (gas: 51464)
+[PASS] testPermit2LargerDSRevert() (gas: 32841)
+[PASS] testPermit2NonPermitFallback() (gas: 37245)
+[PASS] testPermit2NonPermitToken() (gas: 32164)
+[PASS] testPermit2PlusTransferFrom2() (gas: 126995)
+[PASS] testPermit2PlusTransferFrom2WithNonPermit() (gas: 148221)
+[PASS] testPermit2PlusTransferFrom2WithNonPermitFallback() (gas: 174749)
+[PASS] testPermit2PlusTransferFrom2WithWETH9Mainnet() (gas: 147934)
+[PASS] testPermit2SmallerDS() (gas: 77688)
+[PASS] testPermit2SmallerDSNoRevert() (gas: 59324)
+[PASS] testPermit2WETH9Mainnet() (gas: 28774)
+[PASS] testSimplePermit2() (gas: 29117)
+[PASS] testSimplePermit2InvalidAmount() (gas: 16944)
+[PASS] testSimplePermit2PlusTransferFrom2WithNonPermit() (gas: 148463)
+[PASS] testStandardPermit() (gas: 22535)
+[PASS] testStandardTransferFrom() (gas: 38143)
+[PASS] testTransferFrom2() (gas: 38734)
+[PASS] testTransferFrom2Full() (gas: 53368)
+[PASS] testTransferFrom2InvalidAmount() (gas: 12732)
+[PASS] testTransferFrom2NonPermitToken() (gas: 53170)
+Suite result: ok. 29 passed; 0 failed; 0 skipped; finished in 433.00ms (57.04ms CPU time)
+
+Ran 28 tests for test/AllowanceTransferTest.t.sol:AllowanceTransferTest
+[PASS] testApprove() (gas: 47570)
+[PASS] testBatchTransferFrom() (gas: 159197)
+[PASS] testBatchTransferFromDifferentOwners() (gas: 235094)
+[PASS] testBatchTransferFromMultiToken() (gas: 231841)
+[PASS] testBatchTransferFromWithGasSnapshot() (gas: 159857)
+[PASS] testExcessiveInvalidation() (gas: 64205)
+[PASS] testInvalidateMultipleNonces() (gas: 83150)
+[PASS] testInvalidateNonces() (gas: 65347)
+[PASS] testInvalidateNoncesInvalid() (gas: 16327)
+[PASS] testLockdown() (gas: 145984)
+[PASS] testLockdownEvent() (gas: 117749)
+[PASS] testMaxAllowance() (gas: 134888)
+[PASS] testMaxAllowanceDirtyWrite() (gas: 117455)
+[PASS] testPartialAllowance() (gas: 105140)
+[PASS] testReuseOrderedNonceInvalid() (gas: 69154)
+[PASS] testSetAllowance() (gas: 89627)
+[PASS] testSetAllowanceBatch() (gas: 133740)
+[PASS] testSetAllowanceBatchDifferentNonces() (gas: 118603)
+[PASS] testSetAllowanceBatchDirtyWrite() (gas: 99210)
+[PASS] testSetAllowanceBatchEvent() (gas: 116049)
+[PASS] testSetAllowanceCompactSig() (gas: 89587)
+[PASS] testSetAllowanceDeadlinePassed() (gas: 56512)
+[PASS] testSetAllowanceDirtyWrite() (gas: 72175)
+[PASS] testSetAllowanceIncorrectSigLength() (gas: 29198)
+[PASS] testSetAllowanceInvalidSignature() (gas: 64065)
+[PASS] testSetAllowanceTransfer() (gas: 103115)
+[PASS] testSetAllowanceTransferDirtyNonceDirtyTransfer() (gas: 97194)
+[PASS] testTransferFromWithGasSnapshot() (gas: 132867)
+Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 434.05ms (116.16ms CPU time)
+
+Ran 25 tests for test/SignatureTransfer.t.sol:SignatureTransferTest
+[PASS] testCorrectWitnessTypehashes() (gas: 3091)
+[PASS] testGasMultiplePermitBatchTransferFrom() (gas: 270972)
+[PASS] testGasSinglePermitBatchTransferFrom() (gas: 183860)
+[PASS] testGasSinglePermitTransferFrom() (gas: 123854)
+[PASS] testInvalidateUnorderedNonces() (gas: 41396)
+[PASS] testPermitBatchMultiPermitSingleTransfer() (gas: 133675)
+[PASS] testPermitBatchTransferFrom() (gas: 162019)
+[PASS] testPermitBatchTransferFromSingleRecipient() (gas: 187957)
+[PASS] testPermitBatchTransferFromTypedWitness() (gas: 240010)
+[PASS] testPermitBatchTransferFromTypedWitnessInvalidType() (gas: 84503)
+[PASS] testPermitBatchTransferFromTypedWitnessInvalidTypeHash() (gas: 86007)
+[PASS] testPermitBatchTransferFromTypedWitnessInvalidWitness() (gas: 85835)
+[PASS] testPermitBatchTransferInvalidAmountsLengthMismatch() (gas: 41574)
+[PASS] testPermitBatchTransferMultiAddr() (gas: 160547)
+[PASS] testPermitBatchTransferSingleRecipientManyTokens() (gas: 209422)
+[PASS] testPermitTransferFrom() (gas: 92909)
+[PASS] testPermitTransferFromCompactSig() (gas: 124059)
+[PASS] testPermitTransferFromIncorrectSigLength() (gas: 51346)
+[PASS] testPermitTransferFromInvalidNonce() (gas: 72928)
+[PASS] testPermitTransferFromRandomNonceAndAmount(uint256,uint128) (runs: 256, μ: 96195, ~: 96728)
+[PASS] testPermitTransferFromToSpender() (gas: 93283)
+[PASS] testPermitTransferFromTypedWitness() (gas: 125096)
+[PASS] testPermitTransferFromTypedWitnessInvalidType() (gas: 55884)
+[PASS] testPermitTransferFromTypedWitnessInvalidTypehash() (gas: 56879)
+[PASS] testPermitTransferSpendLessThanFull(uint256,uint128) (runs: 256, μ: 99101, ~: 99733)
+Suite result: ok. 25 passed; 0 failed; 0 skipped; finished in 838.25ms (1.03s CPU time)
+
+Ran 9 tests for test/NonceBitmap.t.sol:NonceBitmapTest
+[PASS] testHighNonces() (gas: 36305)
+[PASS] testInvalidateFullWord() (gas: 63061)
+[PASS] testInvalidateNoncesRandomly(uint248,uint256) (runs: 256, μ: 31061, ~: 31139)
+[PASS] testInvalidateNonzeroWord() (gas: 85642)
+[PASS] testInvalidateTwoNoncesRandomly(uint248,uint256,uint256) (runs: 256, μ: 39182, ~: 39182)
+[PASS] testLowNonces() (gas: 41041)
+[PASS] testNonceWordBoundary() (gas: 42284)
+[PASS] testUseTwoRandomNonces(uint256,uint256) (runs: 256, μ: 51368, ~: 51625)
+[PASS] testUsingNonceTwiceFails(uint256) (runs: 256, μ: 21938, ~: 21955)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 81.36s (306.96ms CPU time)
+
+Ran 3 tests for test/AllowanceUnitTest.sol:AllowanceUnitTest
+[PASS] testPackAndUnpack(uint160,uint48,uint48) (runs: 256, μ: 39103, ~: 39103)
+[PASS] testUpdateAllRandomly(uint160,uint48,uint48) (runs: 256, μ: 40243, ~: 40244)
+[PASS] testUpdateAmountExpirationRandomly(uint160,uint48) (runs: 256, μ: 39169, ~: 39170)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 81.38s (279.43ms CPU time)
+
+Ran 3 tests for test/AllowanceTransferInvariants.t.sol:AllowanceTransferInvariants
+[PASS] invariant_balanceEqualsSpent() (runs: 256, calls: 128000, reverts: 18971)
+[PASS] invariant_permit2NeverHoldsBalance() (runs: 256, calls: 128000, reverts: 19081)
+[PASS] invariant_spendNeverExceedsPermit() (runs: 256, calls: 128000, reverts: 19012)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 89.50s (246.83s CPU time)
+
+Ran 11 test suites in 89.53s (254.16s CPU time): 115 tests passed, 0 failed, 0 skipped (115 total tests)
 ```
 
 ### Update Gas Snapshots
@@ -91,9 +247,14 @@ forge snapshot
 
 Run the command below. Remove `--broadcast`, `---rpc-url`, `--private-key` and `--verify` options to test locally
 
+デプロイが失敗するときは Salt の値を変更して再度実行すること。
+
 ```sh
-forge script --broadcast --rpc-url <RPC-URL> --private-key <PRIVATE_KEY> --verify script/DeployPermit2.s.sol:DeployPermit2
+source .env
+forge script --broadcast --rpc-url $RPC_URL --private-key $PRIVATE_KEY --verify script/DeployPermit2.s.sol:DeployPermit2
 ```
+
+[実際にデプロイしたコントラクト - sepolia](https://sepolia.etherscan.io/address/0xF08f41d9f4704be54AbdDA494F7d0FE6098fa9f3)
 
 ## Acknowledgments
 
