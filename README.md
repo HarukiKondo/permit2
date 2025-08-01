@@ -291,14 +291,169 @@ forge script --rpc-url $RPC_URL script/InteractWithPermit2.s.sol:InteractWithPer
 
 ```
 
+````bash
 ```bash
 # 高度な機能テスト
 forge script --rpc-url $RPC_URL script/TestPermit2Advanced.s.sol:TestPermit2Advanced --sig "run()"
-```
+````
+
+署名の設定や検証、型ハッシュの確認などを行います。
 
 ```bash
 # トークン相互作用テスト
 forge script --rpc-url $RPC_URL script/TestTokenInteraction.s.sol:TestTokenInteraction --sig "run()"
+```
+
+各トークンの残高や許可状況を確認することが可能
+
+```bash
+# Token swap demo with Permit2
+forge script --rpc-url $RPC_URL script/SwapWithPermit2.s.sol:SwapWithPermit2 --sig "run()"
+```
+
+Permit2 を使用したトークンスワップのデモンストレーション
+
+```bash
+# Deploy SimpleDEX contract
+forge script script/DeployAndUseSimpleDEX.s.sol:DeployAndUseSimpleDEX --sig 'deployDEX()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+
+# Add liquidity to DEX (set DEX_ADDRESS environment variable first)
+export DEX_ADDRESS=0x... # Address from deployment above
+forge script script/DeployAndUseSimpleDEX.s.sol:DeployAndUseSimpleDEX --sig 'addLiquidity()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+
+# Execute token swap
+forge script script/DeployAndUseSimpleDEX.s.sol:DeployAndUseSimpleDEX --sig 'executeSwap()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+```
+
+実際のトークンスワップを実行するための完全なワークフロー
+
+````
+
+署名の設定や検証、型ハッシュの確認などを行います。
+
+```bash
+== Logs ==
+  === Permit2 Advanced Features Test ===
+  === EIP-712 Structure Analysis ===
+  DOMAIN_SEPARATOR:
+  0x4f1a4196777181df9c428e0f364fa64da55307905d030f9c95ffac7d93bcd582
+  Domain TypeHash:
+  0x8cad95687ba82c2ce50e74f7b754645e5117c3a5bec8151c0726d5857980a866
+  Name Hash:
+  0x9ac997416e8ff9d2ff6bebeb7149f65cdae5e32e2b90440b566bb3044041d36a
+  Chain ID: 11155111
+  Verifying Contract: 0xF08f41d9f4704be54AbdDA494F7d0FE6098fa9f3
+  === Type Hash Analysis ===
+  PermitTransferFrom TypeHash:
+  0x939c21a48a8dbe3a9a2404a1d46691e4d39f6583d6ec6b35714604c986d80106
+  PermitBatchTransferFrom TypeHash:
+  0xfcf35f5ac6a2c28868dc44c302166470266239195f02b0ee408334829333b766
+  PermitSingle TypeHash:
+  0xf3841cd1ff0085026a6327b620b67997ce40f282c88a8e905a7a5626e310f3d0
+  PermitBatch TypeHash:
+  0xaf1b0d30d2cab0380e68f0689007e3254993c596f2fdd0aaa7f4d04f79440863
+  === Signature Structure Demonstration ===
+  TokenPermissions Structure:
+    - token: address
+    - amount: uint256
+  PermitDetails Structure:
+    - token: address
+    - amount: uint160
+    - expiration: uint48
+    - nonce: uint48
+  TransferDetails Structure:
+    - to: address
+    - requestedAmount: uint256
+  Key values used in signatures:
+    - spender: Address authorized to spend
+    - nonce: Value to prevent replay attacks
+    - deadline: Signature expiration
+  === Time-based Function Analysis ===
+  Current timestamp: 1754009928
+  Expiration after 1 hour: 1754013528
+  Expiration after 1 day: 1754096328
+  Expiration after 1 week: 1754614728
+  Maximum expiration value: 281474976710655
+  Maximum expiration datetime: 281474976710655 (Unix timestamp)
+  === Advanced Features Test Completed ===
+````
+
+```bash
+# トークン相互作用テスト
+forge script --rpc-url $RPC_URL script/TokenInteraction.s.sol:TokenInteraction --sig "run()"
+```
+
+各トークンの残高や許可状況を確認することが可能
+
+```bash
+== Logs ==
+  === Token Interaction Test ===
+  Test Account: 0x7E5F4552091A69125d5DfCb7b8C2659029395Bdf
+  ===  WETH  Token Information ===
+  Address: 0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9
+  Contract Exists: Yes
+  Bytecode Size: 1786 bytes
+  Total Supply: 505089374605701462713928
+
+  ===  LINK  Token Information ===
+  Address: 0x779877A7B0D9E8603169DdbD7836e478b4624789
+  Contract Exists: Yes
+  Bytecode Size: 4282 bytes
+  Total Supply: 1000000000000000000000000000
+
+  === Permit2 Integration Test ===
+  Test Account: 0x7E5F4552091A69125d5DfCb7b8C2659029395Bdf
+  Test Token: 0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9
+  Permit2 Allowance Information:
+    Amount: 0
+    Expiration: 0
+    Nonce: 0
+    Status: No allowance set
+  Nonce Bitmap (Word 0): 0
+
+  === Batch Test Multiple Accounts ===
+  --- Account 1 ---
+  ===  TEST  Balance Check ===
+  Account: 0x7E5F4552091A69125d5DfCb7b8C2659029395Bdf
+  Balance: 0
+
+  Permit2 Allowance Amount: 0
+  --- Account 2 ---
+  ===  TEST  Balance Check ===
+  Account: 0x2B5AD5c4795c026514f8317c7a215E218DcCD6cF
+  Balance: 0
+
+  Permit2 Allowance Amount: 0
+  --- Account 3 ---
+  ===  TEST  Balance Check ===
+  Account: 0x6813Eb9362372EEF6200f3b1dbC3f819671cBA69
+  Balance: 0
+
+  Permit2 Allowance Amount: 0
+  === Batch Test Multiple Accounts ===
+  --- Account 1 ---
+  ===  TEST  Balance Check ===
+  Account: 0x7E5F4552091A69125d5DfCb7b8C2659029395Bdf
+  Balance: 50000000000000000000
+  Allowance to Permit2: 0
+  Allowance Status: None
+
+  Permit2 Allowance Amount: 0
+  --- Account 2 ---
+  ===  TEST  Balance Check ===
+  Account: 0x2B5AD5c4795c026514f8317c7a215E218DcCD6cF
+  Balance: 25000000000000000000
+  Allowance to Permit2: 0
+  Allowance Status: None
+
+  Permit2 Allowance Amount: 0
+  --- Account 3 ---
+  ===  TEST  Balance Check ===
+  Account: 0x6813Eb9362372EEF6200f3b1dbC3f819671cBA69
+  Balance: 0
+
+  Permit2 Allowance Amount: 0
+  === Token Interaction Test Completed ===
 ```
 
 ## Acknowledgments

@@ -1,0 +1,14 @@
+{
+  "lib/forge-gas-snapshot": {
+    "rev": "3c5d52a26169876a144f7690d2f9ef0200eb0791"
+  },
+  "lib/forge-std": {
+    "rev": "66bf4e2c92cf507531599845e8d5a08cc2e3b5bb"
+  },
+  "lib/openzeppelin-contracts": {
+    "rev": "d3ff81b37f3c773b44dcaf5fda212c7176eef0e2"
+  },
+  "lib/solmate": {
+    "rev": "8d910d876f51c3b2585c9109409d601f600e68e1"
+  }
+}

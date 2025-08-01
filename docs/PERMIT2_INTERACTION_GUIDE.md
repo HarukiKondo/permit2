@@ -53,10 +53,10 @@ run_permit2_tests.bat
 forge script --rpc-url $RPC_URL script/InteractWithPermit2.s.sol:InteractWithPermit2 --sig "run()"
 
 # 高度な機能テスト
-forge script --rpc-url $RPC_URL script/TestPermit2Advanced.s.sol:TestPermit2Advanced --sig "run()"
+forge script --rpc-url $RPC_URL script/Permit2Advanced.s.sol:Permit2Advanced --sig "run()"
 
 # トークン相互作用テスト
-forge script --rpc-url $RPC_URL script/TestTokenInteraction.s.sol:TestTokenInteraction --sig "run()"
+forge script --rpc-url $RPC_URL script/TokenInteraction.s.sol:TokenInteraction --sig "run()"
 ```
 
 ## 📋 スクリプト機能一覧

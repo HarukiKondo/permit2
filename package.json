@@ -16,6 +16,7 @@
   "scripts": {
     "lint": "forge fmt --check",
     "setup": "forge install",
+    "compile": "forge build",
     "test": "forge test"
   }
 }
