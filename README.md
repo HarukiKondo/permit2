@@ -327,6 +327,199 @@ forge script script/DeployAndUseSimpleDEX.s.sol:DeployAndUseSimpleDEX --sig 'exe
 
 実際のトークンスワップを実行するための完全なワークフロー
 
+### Uniswap V3 Integration
+
+Sepolia テストネットの Uniswap V3 を使用した実際のトークンスワップ:
+
+```bash
+# 1. Check current status and get instructions
+forge script --rpc-url $RPC_URL script/UniswapV3SwapWithPermit2.s.sol:UniswapV3SwapWithPermit2 --sig "run()"
+
+# 2. Wrap ETH to WETH (get WETH for swapping)
+forge script script/UniswapV3SwapWithPermit2.s.sol:UniswapV3SwapWithPermit2 --sig 'wrapETH()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+
+# 3. Approve tokens for Uniswap Router
+forge script script/UniswapV3SwapWithPermit2.s.sol:UniswapV3SwapWithPermit2 --sig 'approveUniswapRouter()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+
+# 4. Get swap quote (check expected output)
+forge script script/UniswapV3SwapWithPermit2.s.sol:UniswapV3SwapWithPermit2 --sig 'getQuote()' --rpc-url $RPC_URL
+
+# 5. Execute actual swap on Uniswap V3
+forge script script/UniswapV3SwapWithPermit2.s.sol:UniswapV3SwapWithPermit2 --sig 'executeDirectSwap()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+```
+
+```bash
+== Logs ==
+  === Uniswap V3 + Permit2 Swap Demo ===
+  Uniswap V3 Router: 0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E
+  Permit2 Address: 0xF08f41d9f4704be54AbdDA494F7d0FE6098fa9f3
+  WETH Address: 0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14
+  USDC Address: 0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238
+  User Account: 0x034f66d49A175438AD7Ec0111CcA18fce1A39Fa6
+  === Current Balances ===
+  ETH Balance: 36 ETH
+  WETH Balance: 0 WETH
+  USDC Balance: 1592 USDC
+
+  === Usage Instructions ===
+
+  Step 1: Get test ETH from Sepolia faucet
+    - Visit: https://sepoliafaucet.com/
+    - Get some ETH for gas and wrapping
+
+  Step 2: Wrap ETH to WETH
+  forge script script/UniswapV3SwapWithPermit2.s.sol:UniswapV3SwapWithPermit2 --sig 'wrapETH()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+
+  Step 3: Approve tokens for Uniswap Router
+  forge script script/UniswapV3SwapWithPermit2.s.sol:UniswapV3SwapWithPermit2 --sig 'approveUniswapRouter()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+
+  Step 4: Get swap quote
+  forge script script/UniswapV3SwapWithPermit2.s.sol:UniswapV3SwapWithPermit2 --sig 'getQuote()' --rpc-url $RPC_URL
+
+  Step 5: Execute swap
+  forge script script/UniswapV3SwapWithPermit2.s.sol:UniswapV3SwapWithPermit2 --sig 'executeDirectSwap()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+
+  Check status anytime:
+  forge script script/UniswapV3SwapWithPermit2.s.sol:UniswapV3SwapWithPermit2 --sig 'checkApprovals()' --rpc-url $RPC_URL
+
+  === Important Notes ===
+  - Make sure you have Sepolia ETH for gas fees
+  - WETH/USDC pool must exist and have liquidity
+  - Always check quotes before executing swaps
+  - Set appropriate slippage protection in production
+  === Demo Completed ===
+```
+
+### Advanced Permit2-Uniswap Integration
+
+Permit2 と Uniswap V3 を組み合わせた高度な統合:
+
+```bash
+# 1. View advanced integration demo
+forge script --rpc-url $RPC_URL script/AdvancedPermit2UniswapScript.s.sol:AdvancedPermit2UniswapScript --sig "run()"
+
+# 2. Deploy Permit2-Uniswap integrator contract
+forge script script/AdvancedPermit2UniswapScript.s.sol:AdvancedPermit2UniswapScript --sig 'deployIntegrator()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+
+# 3. Set deployed integrator address
+export INTEGRATOR_ADDRESS=0x... # Address from deployment above
+
+# 4. Execute integrated swap with Permit2
+source .env
+forge script script/AdvancedPermit2UniswapScript.s.sol:AdvancedPermit2UniswapScript --sig 'executeIntegratedSwap()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+```
+
+```bash
+== Logs ==
+  === Advanced Permit2-Uniswap Integration Demo ===
+  This script demonstrates advanced integration between
+  Permit2 and Uniswap V3 for enhanced token swapping.
+
+  === Complete Workflow ===
+
+  Traditional approach (without Permit2):
+  1. approve(router, amount) - User sets ERC20 allowance
+  2. router.exactInputSingle() - Execute swap
+  Total: 2 transactions
+
+  Permit2 AllowanceTransfer approach:
+  1. approve(permit2, max) - One-time ERC20 approval
+  2. permit(details, signature) - Set Permit2 allowance
+  3. integrator.swapWithAllowanceTransfer() - Execute swap
+  First time: 3 transactions, After: 2 transactions
+
+  Permit2 SignatureTransfer approach:
+  1. approve(permit2, max) - One-time ERC20 approval
+  2. integrator.swapWithSignatureTransfer() - Swap with signature
+  First time: 2 transactions, After: 1 transaction
+
+  Recommended approach: SignatureTransfer for best UX!
+  === Gas Efficiency Analysis ===
+
+  Gas costs comparison (approximate):
+
+  Traditional Uniswap swap:
+    - ERC20.approve(): ~46,000 gas
+    - SwapRouter.exactInputSingle(): ~120,000 gas
+    - Total: ~166,000 gas
+
+  Permit2 + Uniswap (AllowanceTransfer):
+    - ERC20.approve(permit2): ~46,000 gas (one-time)
+    - Permit2.permit(): ~50,000 gas
+    - Integrator swap: ~150,000 gas
+    - Total first time: ~246,000 gas
+    - Total subsequent: ~200,000 gas
+
+  Permit2 + Uniswap (SignatureTransfer):
+    - ERC20.approve(permit2): ~46,000 gas (one-time)
+    - Integrator signature swap: ~170,000 gas
+    - Total first time: ~216,000 gas
+    - Total subsequent: ~170,000 gas
+
+  Additional benefits:
+    - Batch operations further reduce costs
+    - Expiring permits eliminate stale approvals
+    - Meta-transaction support
+    - Enhanced security model
+  === Signature-based Swap Demonstration ===
+
+  To execute signature-based swap:
+
+  1. Generate EIP-712 signature for PermitTransferFrom:
+  PermitTransferFrom {
+    permitted: TokenPermissions {
+      token: WETH_ADDRESS,
+      amount: 10000000000000000 // 0.01 WETH
+    },
+    spender: INTEGRATOR_ADDRESS,
+    nonce: unique_nonce,
+    deadline: block.timestamp + 3600
+  }
+
+  2. Call integrator.swapWithSignatureTransfer():
+     - Pass the permit struct
+     - Include the generated signature
+     - Specify output token and parameters
+
+  Benefits of signature-based approach:
+    - One-time use only (more secure)
+    - No pre-approval needed
+    - Perfect for meta-transactions
+    - Prevents hanging approvals
+
+  To deploy and use the integrator:
+  1. forge script script/AdvancedPermit2UniswapScript.s.sol:AdvancedPermit2UniswapScript --sig 'deployIntegrator()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+  2. export INTEGRATOR_ADDRESS=0x... # Set deployed address
+  3. forge script script/AdvancedPermit2UniswapScript.s.sol:AdvancedPermit2UniswapScript --sig 'executeIntegratedSwap()' --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+
+  === Advanced Demo Completed ===
+```
+
+デプロイしたコントラクト
+
+[0x0eF5680fEa0B7f2cdE256dAa6661Fa08A6c86b56](https://sepolia.etherscan.io/address/0x0eF5680fEa0B7f2cdE256dAa6661Fa08A6c86b56)
+
+### Network Information
+
+**Sepolia Testnet Details:**
+
+- Chain ID: 11155111
+- RPC URL: https://sepolia.infura.io/v3/YOUR_PROJECT_ID
+- Explorer: https://sepolia.etherscan.io/
+
+**Contract Addresses:**
+
+- Permit2: `0xF08f41d9f4704be54AbdDA494F7d0FE6098fa9f3`
+- Uniswap V3 Router: `0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E`
+- Uniswap V3 Quoter: `0xEd1f6473345F45b75F8179591dd5bA1888cf2FB3`
+- WETH: `0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14`
+- USDC: `0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238`
+
+**Test Token Faucets:**
+
+- ETH: https://sepoliafaucet.com/
+- Multiple tokens: https://faucet.paradigm.xyz/
+
 ````
 
 署名の設定や検証、型ハッシュの確認などを行います。
